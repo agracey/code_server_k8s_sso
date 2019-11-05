@@ -1,0 +1,22 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "codeserver.fullname" . -}}
+{{- $host := printf "%s.%s" .Release.Name .Values.ingress.domain -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+{{ include "codeserver.labels" . | indent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ $host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ $fullName }}
+          servicePort: http
+{{- end }}

@@ -1,0 +1,5 @@
+---
+- version: v1alpha1
+  group: coder.com
+  kind: CodeServer
+  chart: /opt/helm/helm-charts/codeserver

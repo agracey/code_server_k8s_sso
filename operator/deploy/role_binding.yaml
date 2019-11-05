@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: code-server
+subjects:
+- kind: ServiceAccount
+  namespace: ide
+  name: code-server
+roleRef:
+  kind: ClusterRole
+  name: code-server
+  apiGroup: rbac.authorization.k8s.io
