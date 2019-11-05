@@ -1,6 +1,6 @@
 const k8s = require('@kubernetes/client-node');
 
-const IDE_NAMESPACE = process.env.IDE_NAMESPACE || 'IDE'
+const IDE_NAMESPACE = process.env.IDE_NAMESPACE || 'ide'
 const CRD_GROUP = process.env.CRD_GROUP || 'coder.com'
 const CRD_VERSION = process.env.CRD_VERSION || 'v1alpha1'
 const CRD_KIND = process.env.CRD_KIND || 'CodeServer'

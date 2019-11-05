@@ -22,6 +22,16 @@ spec:
           env: 
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: "0"
+          - name: OIDC_INGRESS
+            value: "https://master1.tm.suse.com:32000"
+          - name: OIDC_CALLBACK
+            value: "http://ui.ide.lab.susedemos.com"
+          - name: OIDC_CLIENT_ID
+            value: "CODE"
+          - name: OIDC_CLIENT_SECRET
+            value: "12345"
+          - name: BASE_DOMAIN
+            value: "ide.lab.susedemos.com"
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
