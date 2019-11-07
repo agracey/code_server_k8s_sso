@@ -23,7 +23,7 @@ spec:
     {{- end }}
       containers:
         - name: {{ printf "%s-portal" .Chart.Name }}
-          image: "{{ printf "atgracey/code_servers:%s" {{ .Values.image.tag }} }}"
+          image: "{{ printf "atgracey/code_servers:%s" .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: NODE_TLS_REJECT_UNAUTHORIZED
