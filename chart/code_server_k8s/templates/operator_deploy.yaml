@@ -23,7 +23,7 @@ spec:
     {{- end }}
       containers:
         - name: {{ printf "%s-operator" .Chart.Name }}
-          image: "{{ printf "atgracey/code-server-operator:%s" {{ .Values.image.tag }}"
+          image: "{{ printf "atgracey/code-server-operator:%s" .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: WATCH_NAMESPACE
