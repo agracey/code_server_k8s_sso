@@ -6,8 +6,8 @@ entries:
     created: "2019-11-07T06:27:56.894078297-08:00"
     description: A Helm chart for Kubernetes
     digest: b1d7dbcbf0704894a83ef4c89c43bc8516f2df433a9b5634d62891fb0c5c6486
-    name: code_server_k8s
+    name: code-server-k8s
     urls:
-    - https://agracey.github.io/code_server_k8s_sso/code_server_k8s-0.1.0.tgz
+    - https://agracey.github.io/code_server_k8s_sso/code-server-k8s-0.1.0.tgz
     version: 0.1.0
 generated: "2019-11-07T06:27:56.893630955-08:00"
