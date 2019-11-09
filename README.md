@@ -1,4 +1,4 @@
-# code_server_k8s_sso
+# code-server-k8s_sso
 A operator and SSO integration for cdr/code_server
 
 
@@ -16,17 +16,17 @@ As of the moment, I've made the happypath work but haven't fully tested the char
 
 ## Installation:
 
-- Add the helm repo: `helm repo add code_servers https://agracey.github.io/code_server_k8s_sso/`
+- Add the helm repo: `helm repo add code_servers https://agracey.github.io/code-server-k8s_sso/`
 - Create a values file with at least the following fields: 
 ```
 env:
-  OIDC_INGRESS: "https://master1.tm.suse.com:32000" # The external address of the Oauth Provider
-  OIDC_CALLBACK: "http://coder.<domain>" # Set up with the Oauth Provider and DNS wildcard
+  OIDC_INGRESS: "https://dex.<domain>" # The external address of the OIDC Provider
+  OIDC_CALLBACK: "http://coder.<domain>" # Set up with the OIDC Provider and DNS wildcard
   OIDC_CLIENT_ID: "CODE" # Set up with the Oauth Provider
   OIDC_CLIENT_SECRET: "12345" # Set up with the Oauth Provider
-  BASE_DOMAIN: "ide.lab.susedemos.com" # The domain with the wildcard
+  BASE_DOMAIN: "" # The domain with the wildcard
 ```
-- Install with: `helm install code_servers/code_server_k8s -f values.yaml --name codeservers --namespace ide`
-- Browse to http://portal.<domain> to get redirected to a login.
+- Install with: `helm install code_servers/code-server-k8s -f values.yaml --name codeservers --namespace ide`
+- Browse to `http://portal.<domain>` to get redirected to a login.
 
-NOTE: at the moment, there's no page to wait while the IDE is being created. It'll take 30s to a minute and a reload will work. This is on the list to fix first.
+NOTE: I'm working on SSL and switching to a non-root user next. 

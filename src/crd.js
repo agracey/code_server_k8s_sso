@@ -29,6 +29,7 @@ async function buildIDEObject(name, domain){
 
 module.exports = async function getOrCreateIDE(username, domain) {
 
+  let readyMsg = null
   const {body} = await k8sApi.listNamespacedCustomObject(CRD_GROUP, CRD_VERSION, IDE_NAMESPACE, CRD_PLURAL)
  
   const codeServerList = (body.items||[]).filter((item)=>(
@@ -36,10 +37,15 @@ module.exports = async function getOrCreateIDE(username, domain) {
   ))
 
   if (codeServerList.length == 1 ) {
-    //TODO Check if ready and display waiting prompt?
+    // Check if ready and display waiting prompt?
+    const unreadyReasons = (codeServerList[0].status.conditions||[])
+    .filter((condition)=>(condition.status != "True"))
+    if (unreadyReasons.length > 0)
+    readyMsg = unreadyReasons.reduce((acc,curr)=>(acc + "," + (curr.reason || curr.type)), "")
   } else {
-    //Create one
+    // Create one if not already created
     await buildIDEObject(username,domain)
+    readyMsg = "Setting up Personal Storage and Pulling Image"
   }
-  return {url:`http://${username}.${domain}/`}
+  return {url:`http://${username}.${domain}/`,readyMsg}
 }

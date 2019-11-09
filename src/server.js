@@ -17,8 +17,11 @@ app.get('/', ensureLoggedIn(), (req, res) => {
   //TODO improve
   const username = req.user.email.split('@')[0].replace('.','')
 
-  getOrCreateIDE(username, BASE_DOMAIN).then(({url})=>{
-    res.redirect(url)
+  getOrCreateIDE(username, BASE_DOMAIN).then(({url, readyMsg})=>{
+    if(readyMsg) 
+      res.render('wait',{readyMsg})
+    else
+      res.redirect(url)
   }).catch((err)=>{
     console.error('got error:',err)
     res.send(err)
@@ -26,7 +29,7 @@ app.get('/', ensureLoggedIn(), (req, res) => {
 })
 
 //TODO: There is a leak of data here. If the user exists and has logged in, the redirect includes extra steps. 
-//      This is likely fixed with a smart default backend that will act like a failure of auth to hide the real failures vs fake.
+//      This is likely fixed with a smarter default backend that will act like a failure of auth to hide the real failures vs fake.
 
 // This will check that only the correct user can access their IDE. 
 // It'd be nice to allow "guest passes" but I don't know how to do that at the moment...

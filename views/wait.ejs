@@ -2,15 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Code Servers</title>
+    <title>Code Server</title>
     <meta name="description" content="">
     <meta name="author" content="">
-    <% if (reload) { %>
-      <meta http-equiv="refresh" content="<%= reload %>">
-    <% } %>
-    <meta 
+    <meta http-equiv="refresh" content="30">
   </head>
   <body>
     Please wait while your IDE is being initialized. Thank you!
+
+    Currently status is: <%= readyMsg %>
   </body>
 </html>
