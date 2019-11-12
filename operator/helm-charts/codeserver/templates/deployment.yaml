@@ -38,7 +38,7 @@ spec:
               path: /
               port: http
           volumeMounts:
-          - mountPath: /home/coder
+          - mountPath: /home/user
             name: {{ printf "%s-vol" .Release.Name }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
