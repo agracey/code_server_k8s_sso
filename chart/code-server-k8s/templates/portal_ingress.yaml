@@ -1,0 +1,22 @@
+{{- $fullName := include "code-server-k8s.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+{{ include "code-server-k8s.labels" . | indent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+      ingress.kubernetes.io/auth-type: forward
+      ingress.kubernetes.io/auth-url: http://{{ include "code-server-k8s.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:8080/auth
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ printf "ui.%s" .Values.env.BASE_DOMAIN }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "code-server-k8s.fullname" . }}
+          servicePort: http

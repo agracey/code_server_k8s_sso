@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ printf "%s-rolebinding" .Chart.Name }}
+subjects:
+- kind: ServiceAccount
+  namespace: {{ .Release.Namespace }}
+  name: {{ printf "%s-sa" .Chart.Name }}
+roleRef:
+  kind: ClusterRole
+  name: {{ printf "%s-role" .Chart.Name }}
+  apiGroup: rbac.authorization.k8s.io
