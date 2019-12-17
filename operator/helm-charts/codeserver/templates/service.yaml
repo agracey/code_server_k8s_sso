@@ -14,3 +14,20 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "codeserver.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "codeserver.fullname" . }}-custom-service
+  labels:
+{{ include "codeserver.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 3000
+      targetPort: http2
+      protocol: TCP
+      name: http2
+  selector:
+    app.kubernetes.io/name: {{ include "codeserver.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

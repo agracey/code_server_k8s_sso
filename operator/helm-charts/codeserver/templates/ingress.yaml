@@ -1,23 +1,42 @@
 {{- $fullName := include "codeserver.fullname" . -}}
-{{- $host := printf "%s.%s" .Release.Name .Values.ingress.domain -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
 {{ include "codeserver.labels" . | indent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    kubernetes.io/ingress.class: traefik
     ingress.kubernetes.io/auth-type: forward
-    ingress.kubernetes.io/auth-url: http://ide-code-server-k8s.{{ .Release.Namespace }}.svc.cluster.local:8080/auth
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    ingress.kubernetes.io/auth-url: https://ide-code-server-k8s.{{ .Release.Namespace }}.svc.cluster.local:8080/auth
 spec:
+  tls:
+  - secretName: tls-secret  
   rules:
-  - host: {{ $host }}
+  - host: {{ printf "%s.%s" .Release.Name .Values.ingress.domain }}
     http:
       paths:
       - backend:
           serviceName: {{ $fullName }}
           servicePort: http
-{{- end }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-custom-ingress
+  labels:
+{{ include "codeserver.labels" . | indent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/auth-type: forward
+    ingress.kubernetes.io/auth-url: https://ide-code-server-k8s.{{ .Release.Namespace }}.svc.cluster.local:8080/auth
+spec:
+  tls:
+  - secretName: tls-secret  
+  rules:
+  - host: server-{{ printf "%s.%s" .Release.Name .Values.ingress.domain }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ $fullName }}-custom-service
+          servicePort: http2

@@ -20,13 +20,13 @@ As of the moment, I've made the happypath work but haven't fully tested the char
 - Create a values file with at least the following fields: 
 ```
 env:
-  OIDC_INGRESS: "https://dex.<domain>" # The external address of the OIDC Provider
-  OIDC_CALLBACK: "http://coder.<domain>" # Set up with the OIDC Provider and DNS wildcard
+  OIDC_INGRESS: "https://<oauth_domain>" # The external address of the OIDC Provider
+  OIDC_CALLBACK: "https://ui.<domain>" # Set up with the OIDC Provider and DNS wildcard
   OIDC_CLIENT_ID: "CODE" # Set up with the Oauth Provider
   OIDC_CLIENT_SECRET: "12345" # Set up with the Oauth Provider
-  BASE_DOMAIN: "" # The domain with the wildcard
+  BASE_DOMAIN: "<domain>" # The domain with the wildcard
 ```
 - Install with: `helm install code_servers/code-server-k8s -f values.yaml --name codeservers --namespace ide`
-- Browse to `http://portal.<domain>` to get redirected to a login.
+- Browse to "http://portal.<domain>" to get redirected to a login.
 
 NOTE: I'm working on SSL and switching to a non-root user next. 

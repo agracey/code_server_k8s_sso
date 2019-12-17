@@ -8,6 +8,7 @@ const OIDC_CALLBACK = process.env.OIDC_CALLBACK
 const OIDC_CLIENT_ID = process.env.OIDC_CLIENT_ID
 const OIDC_CLIENT_SECRET = process.env.OIDC_CLIENT_SECRET
 const BASE_DOMAIN = process.env.BASE_DOMAIN
+const PORTAL_HOST = process.env.PORTAL_HOST || 'ui'
 
 // set up passport
 passport.use('oidc', new OidcStrategy({
@@ -33,6 +34,7 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
+//TODO I pass it in and use the environment var. Need to switch to remove env from this file...
 module.exports = function setupAuth(app, baseDomain){
   app.use(require('cookie-parser')());
   app.use(require('express-session')({ 
@@ -52,7 +54,7 @@ module.exports = function setupAuth(app, baseDomain){
     passport.authenticate('oidc'));
   
   app.get('/callback', 
-    passport.authenticate('oidc', { failureRedirect: OIDC_CALLBACK + '/login' }),
+    passport.authenticate('oidc', { failureRedirect:`https://${PORTAL_HOST}.${BASE_DOMAIN}/login` }),
     function(req, res) {
       res.redirect('/');
   });
@@ -66,14 +68,14 @@ module.exports = function setupAuth(app, baseDomain){
   app.get('/auth', (req, res) => {
 
     if(!req.user) {
-      res.redirect(`http://ui.${BASE_DOMAIN}`)
+      res.redirect(`https://${PORTAL_HOST}.${BASE_DOMAIN}`)
       return
     }
 
     const username = req.user.email.split('@')[0].replace('.','')
-    const ide_owner = req.headers['x-forwarded-host'].split('.')[0]
+    const host_requested = req.headers['x-forwarded-host'].split('.')[0]
 
-    if (username == ide_owner) res.sendStatus(204)
-    else res.redirect(`http://ui.${BASE_DOMAIN}`)
+    if (username == host_requested || 'server-'+username == host_requested) res.sendStatus(204)
+    else res.redirect(`https://${PORTAL_HOST}.${BASE_DOMAIN}`)
   })
 }

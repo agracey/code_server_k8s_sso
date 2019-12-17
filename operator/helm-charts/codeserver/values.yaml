@@ -11,16 +11,13 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+ingress:
+  domain:
+    example.com
+
 service:
   type: ClusterIP
   port: 8080
-
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    # kubernetes.io/tls-acme: "true"
-  domain: example.local
 
   tls: []
   #  - secretName: chart-example-tls
