@@ -16,7 +16,7 @@ As of the moment, I've made the happypath work but haven't fully tested the char
 
 ## Installation:
 
-- Add the helm repo: `helm repo add code_servers https://agracey.github.io/code-server-k8s_sso/`
+- Add the helm repo: `helm repo add code_servers https://agracey.github.io/code_server_k8s_sso/`
 - Create a values file with at least the following fields: 
 ```
 env:
@@ -27,6 +27,6 @@ env:
   BASE_DOMAIN: "<domain>" # The domain with the wildcard
 ```
 - Install with: `helm install code_servers/code-server-k8s -f values.yaml --name codeservers --namespace ide`
-- Browse to "http://portal.<domain>" to get redirected to a login.
+- Browse to `http://ui.<domain>` to get redirected to a login.
 
 NOTE: I'm working on SSL and switching to a non-root user next. 
